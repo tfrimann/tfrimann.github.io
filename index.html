@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onkel's Helaften</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4A853;
+            --gold-light: #E8C97A;
+            --gold-dark: #B8862D;
+            --navy: #0F1B2D;
+            --navy-mid: #1A2A42;
+            --navy-light: #243B5C;
+            --cream: #FFF8ED;
+            --cream-dark: #F0E4CC;
+            --warm-white: #FFFDF7;
+            --text-light: #E8DCC8;
+            --text-muted: #9AABBF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--navy);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 2rem;
+            background: radial-gradient(ellipse at 50% 30%, var(--navy-mid) 0%, var(--navy) 70%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                radial-gradient(1px 1px at 10% 20%, rgba(212,168,83,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 30% 60%, rgba(212,168,83,0.3) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 50% 10%, rgba(212,168,83,0.5) 0%, transparent 100%),
+                radial-gradient(1px 1px at 70% 40%, rgba(212,168,83,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 70%, rgba(212,168,83,0.4) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 20% 80%, rgba(212,168,83,0.2) 0%, transparent 100%),
+                radial-gradient(1px 1px at 60% 90%, rgba(212,168,83,0.3) 0%, transparent 100%),
+                radial-gradient(1px 1px at 80% 15%, rgba(212,168,83,0.35) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 45% 50%, rgba(212,168,83,0.25) 0%, transparent 100%);
+            animation: twinkle 4s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .hero-ornament {
+            font-size: 1.2rem;
+            letter-spacing: 0.6em;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            font-weight: 700;
+            color: var(--gold-light);
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.5s forwards;
+            text-shadow: 0 0 60px rgba(212,168,83,0.15);
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--gold);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 300;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.7s forwards;
+        }
+
+        .hero-date {
+            margin-top: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.1rem, 3vw, 1.5rem);
+            color: var(--cream-dark);
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: fadeUp 1s ease-out 0.9s forwards;
+        }
+
+        .hero-date span {
+            color: var(--gold);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeUp 1s ease-out 1.2s forwards;
+        }
+
+        .scroll-hint a {
+            color: var(--gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scroll-hint .arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 1.5px solid var(--gold);
+            border-bottom: 1.5px solid var(--gold);
+            transform: rotate(45deg);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: rotate(45deg) translateY(0); }
+            50% { transform: rotate(45deg) translateY(6px); }
+        }
+
+        /* ── COUNTDOWN ── */
+        .countdown-section {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--navy) 0%, var(--navy-mid) 100%);
+        }
+
+        .countdown-label {
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1rem, 4vw, 2.5rem);
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 700;
+            color: var(--gold-light);
+            line-height: 1;
+            min-width: 80px;
+        }
+
+        .countdown-unit {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0 2rem;
+        }
+
+        .divider-line {
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .divider-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            transform: rotate(45deg);
+        }
+
+        /* ── SECTION SHARED ── */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--gold-light);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        /* ── PROGRAM / TIMELINE ── */
+        .program {
+            background: var(--navy-mid);
+        }
+
+        .timeline {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: 2.5rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: linear-gradient(180deg, var(--gold), var(--gold-dark), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.6s ease-out;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 8px;
+            width: 13px;
+            height: 13px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            background: var(--navy-mid);
+        }
+
+        .timeline-time {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--cream);
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* ── INFO CARDS ── */
+        .info {
+            background: var(--navy);
+        }
+
+        .info-grid {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--navy-mid);
+            border: 1px solid rgba(212,168,83,0.15);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: rgba(212,168,83,0.4);
+            transform: translateY(-2px);
+        }
+
+        .info-card-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--gold-light);
+            margin-bottom: 0.4rem;
+        }
+
+        .info-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--navy);
+            border-top: 1px solid rgba(212,168,83,0.1);
+        }
+
+        footer p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        footer .small {
+            font-family: 'DM Sans', sans-serif;
+            font-style: normal;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+        <div class="hero-ornament">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>
+        <h1>Onkel's<br><em>Helaften</em></h1>
+        <p class="hero-subtitle">En eksklusiv kveld for tre fantastiske nieser</p>
+        <p class="hero-date"><span>&#9830;</span> &nbsp; Lørdag 5. april 2026 &nbsp; <span>&#9830;</span></p>
+        <div class="scroll-hint">
+            <a href="#countdown">
+                <span>Scroll ned</span>
+                <div class="arrow"></div>
+            </a>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN -->
+    <section class="countdown-section" id="countdown">
+        <p class="countdown-label">Nedtelling til den store dagen</p>
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">--</div>
+                <div class="countdown-unit">Dager</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">--</div>
+                <div class="countdown-unit">Timer</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">--</div>
+                <div class="countdown-unit">Minutter</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="seconds">--</div>
+                <div class="countdown-unit">Sekunder</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- PROGRAM -->
+    <section class="program" id="program">
+        <h2 class="section-title">Kveldens Program</h2>
+        <p class="section-subtitle">Alt er planlagt ned til minste detalj</p>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-time">16:00</div>
+                <div class="timeline-title">Velkomst &amp; Ankomst</div>
+                <div class="timeline-desc">Dørene åpnes. Velkommen med klem og god stemning.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">16:30</div>
+                <div class="timeline-title">Aktivitet 1</div>
+                <div class="timeline-desc">Noe morsomt og overraskende venter — mer avsløres snart!</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">18:00</div>
+                <div class="timeline-title">Middag</div>
+                <div class="timeline-desc">En skikkelig festmiddag — meny holdes hemmelig.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">19:30</div>
+                <div class="timeline-title">Aktivitet 2</div>
+                <div class="timeline-desc">Kvelden fortsetter med enda en overraskelse.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">21:00</div>
+                <div class="timeline-title">Dessert &amp; Kos</div>
+                <div class="timeline-desc">Søt avslutning med dessert, prat og gode minner.</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-time">22:30</div>
+                <div class="timeline-title">Takk for i kveld!</div>
+                <div class="timeline-desc">En fantastisk helaften er over. Neste gang...?</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-diamond"></div>
+        <div class="divider-line"></div>
+    </div>
+
+    <!-- PRAKTISK INFO -->
+    <section class="info" id="info">
+        <h2 class="section-title">Praktisk Info</h2>
+        <p class="section-subtitle">Alt du trenger å vite</p>
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-icon">&#128205;</div>
+                <h3>Sted</h3>
+                <p>Hjemme hos onkel<br>Adresseveien 42, Oslo</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">&#128336;</div>
+                <h3>Tid</h3>
+                <p>Lørdag 5. april<br>kl. 16:00 – 22:30</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">&#128090;</div>
+                <h3>Kleskode</h3>
+                <p>Pent og komfortabelt<br>— vi skal ha det fint!</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">&#127873;</div>
+                <h3>Ta med</h3>
+                <p>Godt humør og<br>tom mage</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>«Gleder meg til å se dere!»</p>
+        <p class="small">Med kjærlighet fra Onkel</p>
+    </footer>
+
+    <script>
+        // ── COUNTDOWN ──
+        const eventDate = new Date('2026-04-05T16:00:00');
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = eventDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ── SCROLL REVEAL TIMELINE ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, i * 100);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
+    </script>
+
+</body>
+</html>
